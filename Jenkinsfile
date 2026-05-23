@@ -33,8 +33,10 @@ pipeline {
                 withCredentials([usernamePassword(
                 credentialsId: 'aws-access-key-iam', 
                 usernameVariable: 'ACCESS_KEY'
+                passwordVariable: 'SECRET_KEY'
                 )]) {
                     sh 'echo "Username is $ACCESS_KEY"'
+                    sh 'echo "Password is $SECRET_KEY"'
                     // Sync dist folder to S3 and delete old files not in current build
                     sh "aws s3 sync dist/file-uploader/ s3://${S3_BUCKET}/ --delete"
                 }
