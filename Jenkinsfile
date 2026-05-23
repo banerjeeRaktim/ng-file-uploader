@@ -30,12 +30,11 @@ pipeline {
         
         stage('Deploy to S3') {
             steps {
-                withCredentials([[
-                  $class: 'UsernamePasswordMultiBinding',
-                  credentialsId: 'aws-access-key-iam',
-                  usernameVariable: 'USERNAME'
-                  ]]) {
-                    sh 'echo "Username is $USERNAME"'
+                withCredentials([usernamePassword(
+                credentialsId: 'my-aws-creds-id', 
+                usernameVariable: 'ACCESS_KEY'
+                )]) {
+                    sh 'echo "Username is $ACCESS_KEY"'
                     // Sync dist folder to S3 and delete old files not in current build
                     sh "aws s3 sync dist/file-uploader/ s3://${S3_BUCKET}/ --delete"
                 }
