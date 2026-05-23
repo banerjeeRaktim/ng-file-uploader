@@ -50,6 +50,12 @@ pipeline {
                     s3Upload(
                       bucket: "${S3_BUCKET}",
                       workingDir: 'dist/file-uploader/browser',
+                      includePathPattern: '**/*',
+                      path: ''
+                    )
+                    s3Upload(
+                      bucket: "${S3_BUCKET}",
+                      workingDir: 'dist/file-uploader',
                       includePathPattern: '*',
                       path: ''
                     )
