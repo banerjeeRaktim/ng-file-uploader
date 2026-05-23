@@ -30,7 +30,7 @@ pipeline {
         
         stage('Deploy to S3') {
             steps {
-                withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials' ]]) {
+                withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-access-key-iam' ]]) {
                     // Sync dist folder to S3 and delete old files not in current build
                     sh "aws s3 sync dist/file-uploader/ s3://${S3_BUCKET}/ --delete"
                 }
