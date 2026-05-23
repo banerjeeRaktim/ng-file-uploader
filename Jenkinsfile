@@ -28,14 +28,14 @@ pipeline {
             }
         }
         
-        // stage('Deploy to S3') {
-        //     steps {
-        //         withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials' ]]) {
-        //             // Sync dist folder to S3 and delete old files not in current build
-        //             sh "aws s3 sync dist/your-app-name/ s3://${S3_BUCKET}/ --delete"
-        //         }
-        //     }
-        // }
+        stage('Deploy to S3') {
+            steps {
+                withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials' ]]) {
+                    // Sync dist folder to S3 and delete old files not in current build
+                    sh "aws s3 sync dist/file-uploader/ s3://${S3_BUCKET}/ --delete"
+                }
+            }
+        }
         
         // stage('Invalidate CloudFront Cache') {
         //     steps {
