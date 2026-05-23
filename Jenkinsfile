@@ -47,7 +47,12 @@ pipeline {
             steps {
                 withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-iam') {
                     s3Delete(bucket: "${S3_BUCKET}", path: "/")
-                    s3Upload(bucket: "${S3_BUCKET}", includePathPattern: '**/*', workingDir: 'dist/file-uploader', excludePathPattern: '**/node-modules')
+                    s3Upload(
+                      bucket: "${S3_BUCKET}",
+                      workingDir: 'dist/file-uploader/browser',
+                      includePathPattern: '*',
+                      path: ''
+                    )
                   }
             }
         }
