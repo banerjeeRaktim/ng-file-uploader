@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy to S3') {
             steps {
                 withCredentials([usernamePassword(
-                credentialsId: 'my-aws-creds-id', 
+                credentialsId: 'aws-access-key-iam', 
                 usernameVariable: 'ACCESS_KEY'
                 )]) {
                     sh 'echo "Username is $ACCESS_KEY"'
