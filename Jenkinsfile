@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(
                 credentialsId: 'aws-access-key-iam', 
-                usernameVariable: 'ACCESS_KEY'
+                usernameVariable: 'ACCESS_KEY',
                 passwordVariable: 'SECRET_KEY'
                 )]) {
                     sh 'echo "Username is $ACCESS_KEY"'
