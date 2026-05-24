@@ -27,21 +27,6 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        
-        // stage('Deploy to S3') {
-        //     steps {
-        //         withCredentials([usernamePassword(
-        //         credentialsId: 'aws-access-key-iam', 
-        //         usernameVariable: 'ACCESS_KEY',
-        //         passwordVariable: 'SECRET_KEY'
-        //         )]) {
-        //             sh 'echo "Username is $ACCESS_KEY"'
-        //             sh 'echo "Password is $SECRET_KEY"'
-        //             // Sync dist folder to S3 and delete old files not in current build
-        //             sh "aws s3 sync dist/file-uploader/ s3://${S3_BUCKET}/ --delete"
-        //         }
-        //     }
-        // }
 
         stage('Deploy to S3') {
             steps {
@@ -63,13 +48,16 @@ pipeline {
             }
         }
         
-        // stage('Invalidate CloudFront Cache') {
-        //     steps {
-        //         withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials' ]]) {
-        //             // Force CloudFront to fetch the latest files from S3
-        //             sh "aws cloudfront create-invalidation --distribution-id ${CF_DIST_ID} --paths '/*'"
-        //         }
-        //     }
-        // }
+        stage('Invalidate CloudFront Cache') {
+            steps {
+                withAWS(credentialsId: 'aws-access-key-iam') {
+                    // Force CloudFront to fetch the latest files from S3
+                    cfInvalidate(
+                      distribution: "${CF_DIST_ID}",
+                      paths: ['/*']
+                    )
+                }
+            }
+        }
     }
 }
