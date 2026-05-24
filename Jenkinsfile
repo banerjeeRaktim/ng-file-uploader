@@ -50,7 +50,7 @@ pipeline {
         
         stage('Invalidate CloudFront Cache') {
             steps {
-                withAWS(credentialsId: 'aws-access-key-iam') {
+                withAWS(credentials: 'aws-access-key-iam') {
                     // Force CloudFront to fetch the latest files from S3
                     cfInvalidate(
                       distribution: "${CF_DIST_ID}",
