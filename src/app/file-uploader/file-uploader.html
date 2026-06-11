@@ -1,0 +1,77 @@
+<div class="uploader-container">
+  <h1>File Uploader</h1>
+
+  <div class="upload-section" role="region" aria-label="File upload area">
+    <label for="file-input" class="file-label">Choose a file to upload</label>
+    <div class="input-group">
+      <input
+        id="file-input"
+        type="file"
+        (change)="onFileSelected($event)"
+        class="file-input"
+        [disabled]="isUploading()"
+        accept=".jpg,.jpeg,.png,.pdf,.txt"
+        aria-describedby="file-help"
+        aria-label="Select file for upload"
+      />
+      <button
+        (click)="uploadFile()"
+        class="upload-btn"
+        [disabled]="!canUpload()"
+        aria-label="Upload selected file"
+      >
+        @if (isUploading()) {
+          <span aria-live="polite">Uploading...</span>
+        } @else {
+          <span>Upload</span>
+        }
+      </button>
+    </div>
+    <p id="file-help" class="file-help">
+      Max file size: 10MB. Allowed types: JPEG, PNG, PDF, TXT
+    </p>
+  </div>
+
+  @if (hasError()) {
+    <div class="error-message" role="alert">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (file()) {
+    <div class="file-info" role="region" aria-label="Selected file information">
+      <p><strong>File:</strong> <span class="file-name">{{ file()!.name }}</span></p>
+      <p><strong>Size:</strong> <span>{{ fileSizeKB() }} KB</span></p>
+    </div>
+  }
+
+  @if (isUploading()) {
+    <div class="progress-section" role="region" aria-label="Upload progress">
+      <div
+        class="progress-bar"
+        role="progressbar"
+        [attr.aria-valuenow]="progress() | number: '1.0-0'"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div class="progress-fill" [style.width.%]="progress()"></div>
+      </div>
+      <p class="progress-text" aria-live="polite">
+        {{ progress() | number: '1.0-0' }}% uploaded
+      </p>
+    </div>
+  }
+
+  @if (isSuccess()) {
+    <div class="success-message" role="status" aria-live="polite">
+      <p>File uploaded successfully!</p>
+      <button
+        (click)="resetUpload()"
+        class="reset-btn"
+        aria-label="Upload another file"
+      >
+        Upload Another
+      </button>
+    </div>
+  }
+</div>
