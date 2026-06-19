@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
+                git branch: env.BRANCH_NAME,
                 url: 'https://github.com/banerjeeRaktim/ng-file-uploader.git'
             }
         }
