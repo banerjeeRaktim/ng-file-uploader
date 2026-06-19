@@ -180,3 +180,17 @@
     }
   }
 }
+
+.error-message {
+  padding: 12px;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  margin-bottom: 20px;
+
+  p {
+    margin: 0;
+    color: #991b1b;
+    font-size: 13px;
+  }
+}
